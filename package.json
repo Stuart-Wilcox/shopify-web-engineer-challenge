@@ -1,0 +1,19 @@
+{
+  "name": "shopify-web-engineer-challenge",
+  "version": "1.0.0",
+  "description": "Build a web app to search for waste items using the Toronto Waste Wizard database, and save frequently used ones.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stuart-Wilcox/shopify-web-engineer-challenge.git"
+  },
+  "author": "Stu Wilcox",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Stuart-Wilcox/shopify-web-engineer-challenge/issues"
+  },
+  "homepage": "https://github.com/Stuart-Wilcox/shopify-web-engineer-challenge#readme"
+}
