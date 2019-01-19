@@ -1,0 +1,21 @@
+<table class="resultTable">
+  <tr *ngFor="let dataPoint of results; index as i">
+    <td>
+      <!-- star here -->
+        <i *ngIf="dataPoint.isFavourite" class="material-icons" style="color:#339933;cursor:pointer;" (click)="setFavourite(false, i)">
+          star_rate
+        </i>
+        <i *ngIf="!dataPoint.isFavourite" class="material-icons" style="color:#d2d2d2;cursor:pointer;" (click)="setFavourite(true, i)">
+          star_rate
+        </i>
+    </td>
+    <td>
+      <!-- title -->
+      {{ dataPoint.title }}
+    </td>
+    <td>
+      <!-- body -->
+      <div [innerHTML]="decodeHTML(dataPoint.body)"></div>
+    </td>
+  </tr>
+<table>

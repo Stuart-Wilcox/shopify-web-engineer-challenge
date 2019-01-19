@@ -1,0 +1,10 @@
+<form class="searchForm" (submit)="performSearch()">
+  <input [(ngModel)]="query" class="searchInput" type="text" name="query"/>
+  <button class="searchButton" role="button" type="submit">
+    <div class="searchButtonIcon">
+      <i class="material-icons">
+        search
+      </i>
+    </div>
+  </button>
+</form>

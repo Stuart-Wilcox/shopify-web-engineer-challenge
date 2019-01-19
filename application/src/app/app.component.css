@@ -1,0 +1,40 @@
+.header{
+  height: 150px;
+  width: 100%;
+  background-image: linear-gradient(to right, #333399, #339933);
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.loader-container{
+  margin: auto;
+  width: 0%;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.page-container{
+  margin-top: 50px;
+}
+
+.title-container{
+  padding-top: 30px;
+  font-size: 1.2em;
+}
+
+.empty-results{
+  width: 80%;
+  margin-left: 10%;
+}
+
+.favourites-title{
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  color: #339933;
+}
+
+.footer{
+  margin-bottom: 300px;
+}
