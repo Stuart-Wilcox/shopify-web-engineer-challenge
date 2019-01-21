@@ -74,7 +74,7 @@ module.exports = ".header{\n  height: 150px;\n  width: 100%;\n  background-image
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"header\">\n  <div class=\"title-container\">\n    <h1>Toronto Waste Lookup</h1>\n  </div>\n</div>\n\n<div *ngIf=\"loading\" class=\"loader-container\">\n  <app-loader></app-loader>\n</div>\n<div *ngIf=\"!loading\" class=\"page-container\">\n  <app-search-form (search)=\"performSearch($event)\"></app-search-form>\n  <br>\n  <app-result-display *ngIf=\"displayResults.length !== 0\" [results]=\"displayResults\"></app-result-display>\n  <p *ngIf=\"displayResults.length === 0\" class=\"empty-results\">Search results will be displayed here.</p>\n  <h2 class=\"favourites-title\" >Favourites</h2>\n  <app-result-display *ngIf=\"favouriteResults.length !== 0\" [results]=\"favouriteResults\"></app-result-display>\n  <p *ngIf=\"favouriteResults.length === 0\" class=\"empty-results\">You don't have any favourites yet. Once you favourite some items, they will appear here.</p>\n\n  <div class=\"footer\"></div>\n</div>\n<router-outlet></router-outlet>\n"
+module.exports = "<div class=\"header\">\n  <div class=\"title-container\">\n    <h1>Toronto Waste Lookup</h1>\n  </div>\n</div>\n\n<div *ngIf=\"loading\" class=\"loader-container\">\n  <app-loader></app-loader>\n</div>\n<div *ngIf=\"!loading\" class=\"page-container\">\n  <app-search-form (search)=\"performSearch($event)\"></app-search-form>\n  <br>\n  <app-result-display *ngIf=\"displayResults.length !== 0\" [results]=\"displayResults\" (favourited)=\"setFavourite($event)\"></app-result-display>\n  <p *ngIf=\"displayResults.length === 0\" class=\"empty-results\">Search results will be displayed here.</p>\n  <h2 class=\"favourites-title\" >Favourites</h2>\n  <app-result-display *ngIf=\"favouriteResults.length !== 0\" [results]=\"favouriteResults\" (favourited)=\"setFavourite($event)\"></app-result-display>\n  <p *ngIf=\"favouriteResults.length === 0\" class=\"empty-results\">You don't have any favourites yet. Once you favourite some items, they will appear here.</p>\n\n  <div class=\"footer\"></div>\n</div>\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -108,8 +108,18 @@ var AppComponent = /** @class */ (function () {
             _this.loading = false;
         });
     };
+    AppComponent.prototype.updateFavourites = function () {
+        var _this = this;
+        this.dataManager.getData().then(function (data) {
+            _this.favouriteResults = data.filter(function (dataPoint) { return dataPoint.isFavourite; });
+        });
+    };
     AppComponent.prototype.performSearch = function (query) {
         this.displayResults = this.dataManager.search(query);
+    };
+    AppComponent.prototype.setFavourite = function (dataPoint) {
+        this.dataManager.setFavourite(dataPoint);
+        this.updateFavourites();
     };
     AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -227,8 +237,10 @@ var DataManagerService = /** @class */ (function () {
             var timestamp;
             return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
                 timestamp = parseInt(window.localStorage.getItem('DataTimestamp'));
+                console.error('timestamp + 1h: ', timestamp + (1000 * 60 * 60));
+                console.error('current: ', new Date().getTime());
                 // timestamp is more than 1h old, then replace
-                if (isNaN(timestamp) || timestamp + 1000 * 60 * 60 > new Date().getTime()) {
+                if (isNaN(timestamp) || (timestamp + (1000 * 60 * 60)) < new Date().getTime()) {
                     // send nothing, since expired
                     return [2 /*return*/, null];
                 }
@@ -247,12 +259,14 @@ var DataManagerService = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (this.data !== null && this.data.length > 0) {
+                            console.warn('Fetched pre-loaded data');
                             return [2 /*return*/, this.data];
                         }
                         return [4 /*yield*/, this.getDataFromCache()];
                     case 1:
                         data = _a.sent();
                         if (!(data !== null)) return [3 /*break*/, 2];
+                        console.warn('Fetched cached data');
                         this.data = data;
                         return [2 /*return*/, data];
                     case 2: return [4 /*yield*/, this.getDataFromServer()];
@@ -260,6 +274,7 @@ var DataManagerService = /** @class */ (function () {
                         data = _a.sent();
                         this.updateCache(data);
                         this.data = data;
+                        console.warn('Fetched downloaded data');
                         return [2 /*return*/, data];
                 }
             });
@@ -271,9 +286,21 @@ var DataManagerService = /** @class */ (function () {
         window.localStorage.setItem('Data', JSON.stringify(data));
     };
     DataManagerService.prototype.search = function (query) {
+        if (query === '') {
+            return [];
+        }
         return this.data.filter(function (dataPoint) {
             return dataPoint.keywords.split(', ').some(function (keyword) { return keyword.toUpperCase().includes(query.toUpperCase()); });
         });
+    };
+    DataManagerService.prototype.setFavourite = function (dataPoint) {
+        try {
+            this.data.find(function (data) { return data.title == dataPoint.title && data.body == dataPoint.body; }).isFavourite = dataPoint.isFavourite;
+            this.updateCache(this.data);
+        }
+        catch (e) {
+            console.warn('Datapoint not found. Not setting favourite.');
+        }
     };
     DataManagerService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({

@@ -60,6 +60,10 @@ export class DataManagerService {
   }
 
   search(query: string): Data[] {
+    if(query === ''){
+      return [];
+    }
+
     return this.data.filter(dataPoint => {
       return dataPoint.keywords.split(', ').some(keyword => keyword.toUpperCase().includes(query.toUpperCase()));
     });
