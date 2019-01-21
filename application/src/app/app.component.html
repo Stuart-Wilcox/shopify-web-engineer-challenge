@@ -10,10 +10,10 @@
 <div *ngIf="!loading" class="page-container">
   <app-search-form (search)="performSearch($event)"></app-search-form>
   <br>
-  <app-result-display *ngIf="displayResults.length !== 0" [results]="displayResults"></app-result-display>
+  <app-result-display *ngIf="displayResults.length !== 0" [results]="displayResults" (favourited)="setFavourite($event)"></app-result-display>
   <p *ngIf="displayResults.length === 0" class="empty-results">Search results will be displayed here.</p>
   <h2 class="favourites-title" >Favourites</h2>
-  <app-result-display *ngIf="favouriteResults.length !== 0" [results]="favouriteResults"></app-result-display>
+  <app-result-display *ngIf="favouriteResults.length !== 0" [results]="favouriteResults" (favourited)="setFavourite($event)"></app-result-display>
   <p *ngIf="favouriteResults.length === 0" class="empty-results">You don't have any favourites yet. Once you favourite some items, they will appear here.</p>
 
   <div class="footer"></div>

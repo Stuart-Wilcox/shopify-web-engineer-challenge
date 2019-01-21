@@ -19,9 +19,11 @@ export class DataManagerService {
 
   async getDataFromCache(): Promise<Data[]> {
     let timestamp = parseInt(window.localStorage.getItem('DataTimestamp'));
+    console.error('timestamp + 1h: ', timestamp + (1000 * 60 * 60));
+    console.error('current: ', new Date().getTime());
 
     // timestamp is more than 1h old, then replace
-    if(isNaN(timestamp) || timestamp + 1000*60*60 > new Date().getTime()){
+    if(isNaN(timestamp) || (timestamp + (1000*60*60)) < new Date().getTime()){
       // send nothing, since expired
       return null;
     } else {
@@ -32,18 +34,21 @@ export class DataManagerService {
 
   async getData(): Promise<Data[]> {
     if(this.data !== null && this.data.length > 0){
+      console.warn('Fetched pre-loaded data');
       return this.data;
     }
 
     let data = await this.getDataFromCache();
 
     if(data !== null){
+      console.warn('Fetched cached data');
       this.data = data;
       return data;
     } else {
       data = await this.getDataFromServer();
       this.updateCache(data);
       this.data = data;
+      console.warn('Fetched downloaded data');
       return data;
     }
   }
@@ -58,5 +63,15 @@ export class DataManagerService {
     return this.data.filter(dataPoint => {
       return dataPoint.keywords.split(', ').some(keyword => keyword.toUpperCase().includes(query.toUpperCase()));
     });
+  }
+
+  setFavourite(dataPoint: Data){
+    try {
+      this.data.find(data => data.title == dataPoint.title && data.body == dataPoint.body).isFavourite = dataPoint.isFavourite;
+      this.updateCache(this.data);
+    }
+    catch(e) {
+      console.warn('Datapoint not found. Not setting favourite.');
+    }
   }
 }

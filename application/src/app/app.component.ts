@@ -25,7 +25,18 @@ export class AppComponent {
     });
   }
 
+  updateFavourites(): void {
+    this.dataManager.getData().then(data => {
+      this.favouriteResults =  data.filter(dataPoint => dataPoint.isFavourite);
+    });
+  }
+
   performSearch(query: string){
     this.displayResults = this.dataManager.search(query);
+  }
+
+  setFavourite(dataPoint: Data){
+    this.dataManager.setFavourite(dataPoint);
+    this.updateFavourites();
   }
 }
