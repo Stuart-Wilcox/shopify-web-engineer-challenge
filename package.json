@@ -4,6 +4,7 @@
   "description": "Build a web app to search for waste items using the Toronto Waste Wizard database, and save frequently used ones.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Stuart-Wilcox/shopify-web-engineer-challenge/issues"
   },
-  "homepage": "https://github.com/Stuart-Wilcox/shopify-web-engineer-challenge#readme"
+  "homepage": "https://github.com/Stuart-Wilcox/shopify-web-engineer-challenge#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }
