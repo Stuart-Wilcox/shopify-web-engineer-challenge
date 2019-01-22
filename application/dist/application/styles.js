@@ -557,7 +557,7 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/stuart/Documents/shopify-web-engineer-challenge/application/src/styles.css */"./src/styles.css");
+module.exports = __webpack_require__(/*! /home/stuart/git/shopify-web-engineer-challenge/application/src/styles.css */"./src/styles.css");
 
 
 /***/ })
