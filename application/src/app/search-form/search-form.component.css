@@ -7,6 +7,7 @@
 .searchInput{
   width: 80%;
   float: left;
+  height: 32px;
 }
 
 .searchButton{
@@ -16,11 +17,12 @@
   margin-bottom: 1px;
   margin-left: 10px;
   border: none;
-  height: 32px;
-  width: 32px;
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-top: 2px;
+  height: 42px;
+  width: 40px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 4px;
+  padding-bottom: 2px;
   border-radius: 2px;
 }
 

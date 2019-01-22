@@ -27,4 +27,6 @@ Build a web app to search for waste items using the Toronto Waste Wizard databas
 In your application, please include: 
 
 1. A link to your codebase, for review.
+	https://github.com/Stuart-Wilcox/shopify-web-engineer-challenge
 2. A link to a hosted version, for testing.
+	https://shopify-web-engineer-challenge.herokuapp.com/
